@@ -63,29 +63,29 @@ def logout_request(request):
     return JsonResponse({'userName': ''})
 
 
-# def get_cars(request):
-#     if CarMake.objects.count() == 0:
-#         initiate()
-
-#     car_models = CarModel.objects.select_related('car_make')
-#     cars = [
-#         {"CarModel": cm.name, "CarMake": cm.car_make.name}
-#         for cm in car_models
-#     ]
-#     return JsonResponse({"CarModels": cars})
 def get_cars(request):
-    if CarModel.objects.count() == 0:
-        print("No car models found. Calling initiate() to populate...")
+    if CarMake.objects.count() == 0:
         initiate()
 
     car_models = CarModel.objects.select_related('car_make')
-    print(f"Car models found: {car_models.count()}")
-    
     cars = [
         {"CarModel": cm.name, "CarMake": cm.car_make.name}
         for cm in car_models
     ]
     return JsonResponse({"CarModels": cars})
+# def get_cars(request):
+#     if CarModel.objects.count() == 0:
+#         print("No car models found. Calling initiate() to populate...")
+#         initiate()
+
+#     car_models = CarModel.objects.select_related('car_make')
+#     print(f"Car models found: {car_models.count()}")
+    
+#     cars = [
+#         {"CarModel": cm.name, "CarMake": cm.car_make.name}
+#         for cm in car_models
+#     ]
+#     return JsonResponse({"CarModels": cars})
 
 
 # # Update the `get_dealerships` view to render the index page with
