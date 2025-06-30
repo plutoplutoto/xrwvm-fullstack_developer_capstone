@@ -73,7 +73,7 @@ def get_cars(request):
         {"CarModel": cm.name, "CarMake": cm.car_make.name}
         for cm in car_models
     ]
-    return JsonResponse({"CarModels": cars}
+    return JsonResponse({"CarModels": cars})
 
 #Update the `get_dealerships` render list of dealerships all by default, particular state if state is passed
 def get_dealerships(request, state="All"):
