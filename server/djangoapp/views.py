@@ -76,26 +76,13 @@ def get_cars(request):
     return JsonResponse({"CarModels": cars})
 
 
-# def get_dealerships(request, state="All"):
-#     if(state == "All"):
-#         endpoint = "/fetchDealers"
-#     else:
-#         endpoint = "/fetchDealers/"+state
-#     dealerships = get_request(endpoint)
-#     return JsonResponse({"status":200,"dealers":dealerships})
 def get_dealerships(request, state="All"):
-    try:
-        endpoint = f"/fetchDealers/{state}" if state != "All" else "/fetchDealers"
-        dealerships = get_request(endpoint)
-        
-        if not dealerships:
-            return JsonResponse({"status": 404, "message": "No dealers found"}, status=404)
-        
-        return JsonResponse({"status": 200, "dealers": dealerships})
-    except Exception as e:
-        logger.error(f"Error fetching dealerships: {e}")
-        return JsonResponse({"error": "Error fetching dealerships"}, status=500)
-
+    if(state == "All"):
+        endpoint = "/fetchDealers"
+    else:
+        endpoint = "/fetchDealers/"+state
+    dealerships = get_request(endpoint)
+    return JsonResponse({"status":200,"dealers":dealerships})
 
 def get_dealer_details(request, dealer_id):
     if(dealer_id):
