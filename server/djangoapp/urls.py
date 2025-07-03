@@ -17,7 +17,8 @@ urlpatterns = [
     path('get_cars', views.get_cars, name='getcars'),
 
     # Add more paths like:
-    path(route='get_dealers', view=views.get_dealerships, name='get_dealers'),
+    # path(route='get_dealers', view=views.get_dealerships, name='get_dealers'),
+    path('djangoapp/get_dealers/', views.get_dealerships, name='get_dealers'),
     path(route='get_dealers/<str:state>', view=views.get_dealerships, name='get_dealers_by_state'),
     path(route='dealer/<int:dealer_id>', view=views.get_dealer_details, name='dealer_details'),
     path(route='reviews/dealer/<int:dealer_id>', view=views.get_dealer_reviews, name='dealer_details'),

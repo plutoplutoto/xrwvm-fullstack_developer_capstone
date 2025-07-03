@@ -17,7 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from django.conf.urls.static import static
-from django.conf import settings
+from django.conf import settings 
+from django.shortcuts import render
+from django.http import HttpResponse
+from djangoapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
