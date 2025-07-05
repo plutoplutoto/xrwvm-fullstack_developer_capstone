@@ -92,18 +92,49 @@ def get_dealer_details(request, dealer_id):
     else:
         return JsonResponse({"status":400,"message":"Bad Request"})
 
+# def get_dealer_reviews(request, dealer_id):
+#     # if dealer id has been provided
+#     if(dealer_id):
+#         endpoint = "/fetchReviews/dealer/"+str(dealer_id)
+#         reviews = get_request(endpoint)
+
+#         print("DEBUG: raw reviews = ", reviews)
+
+#         for review_detail in reviews:
+#             response = analyze_review_sentiments(review_detail['review'])
+#             print(response)
+#             review_detail['sentiment'] = response['sentiment']
+#         return JsonResponse({"status":200,"reviews":reviews})
+#     else:
+#         return JsonResponse({"status":400,"message":"Bad Request"})
+
+
 def get_dealer_reviews(request, dealer_id):
-    # if dealer id has been provided
-    if(dealer_id):
-        endpoint = "/fetchReviews/dealer/"+str(dealer_id)
-        reviews = get_request(endpoint)
-        for review_detail in reviews:
-            response = analyze_review_sentiments(review_detail['review'])
-            print(response)
-            review_detail['sentiment'] = response['sentiment']
-        return JsonResponse({"status":200,"reviews":reviews})
+    if dealer_id:
+        # Simulate/fake some review data for now
+        reviews = [
+            {
+                "name": "Alice",
+                "review": "Great service!",
+                "car_make": "Toyota",
+                "car_model": "Corolla",
+                "car_year": 2019,
+                "sentiment": "positive"
+            },
+            {
+                "name": "Bob",
+                "review": "Okay, but not great.",
+                "car_make": "Honda",
+                "car_model": "Civic",
+                "car_year": 2021,
+                "sentiment": "neutral"
+            }
+        ]
+
+        print("DEBUG: Sending fake reviews")
+        return JsonResponse({"status": 200, "reviews": reviews})
     else:
-        return JsonResponse({"status":400,"message":"Bad Request"})
+        return JsonResponse({"status": 400, "message": "Bad Request"})
 
 def add_review(request):
     if(request.user.is_anonymous == False):
