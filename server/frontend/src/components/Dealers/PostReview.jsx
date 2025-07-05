@@ -78,18 +78,16 @@ const PostReview = () => {
   const get_cars = async ()=>{
     const res = await fetch(carmodels_url, {
       method: "GET"
-    });console.log(res)
+    });
     const retobj = await res.json();
-    console.log(retobj)
     const carmodelsarr = retobj.CarModels || []
     setCarmodels(carmodelsarr)
-    console.log(carmodelsarr)
   }
   useEffect(() => {
     get_dealer();
     get_cars();
   },[]);
-  console.log("carmodels:", carmodels);
+ 
 
 
   return (
@@ -138,7 +136,7 @@ const PostReview = () => {
           <input
             type="number"
             min={2015}
-            max={2023}
+            max={2025}
             onChange={(e) => setYear(e.target.value)}
           />
         </div>
