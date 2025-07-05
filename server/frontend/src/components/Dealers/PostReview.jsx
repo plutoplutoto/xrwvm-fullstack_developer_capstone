@@ -8,7 +8,7 @@ import Header from '../Header/Header';
 const PostReview = () => {
   const [dealer, setDealer] = useState({});
   const [review, setReview] = useState("");
-  const [model, setModel] = useState();
+  const [model, setModel] = useState("");
   const [year, setYear] = useState("");
   const [date, setDate] = useState("");
   const [carmodels, setCarmodels] = useState([]);
@@ -89,6 +89,7 @@ const PostReview = () => {
     get_dealer();
     get_cars();
   },[]);
+  console.log("carmodels:", carmodels);
 
 
   return (
@@ -117,19 +118,22 @@ const PostReview = () => {
             id="cars"
             value={model}
             onChange={(e) => setModel(e.target.value)}
-          >
+            >
             <option value="" disabled hidden>
-              Choose Car Make and Model
+                Choose Car Make and Model
             </option>
             {carmodels.map((carmodel, index) => (
-              <option
+                <option
                 key={index}
-                value={`${carmodel.CarMake} ${carmodel.CarModel}`}
-              >
-                {carmodel.CarMake} {carmodel.CarModel}
-              </option>
+                value={JSON.stringify({ make: carmodel.car_make, model: carmodel.name })}
+                >
+                {carmodel.car_make} {carmodel.name}
+                </option>
             ))}
-          </select>
+            </select>
+
+            <p>Selected model = {model}</p>  {/* ✅ for debugging */}
+
         </div>
   
         <div className="input_field">

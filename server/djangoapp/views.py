@@ -64,17 +64,30 @@ def logout_request(request):
     return JsonResponse({'userName': ''})
 
 
+# def get_cars(request):
+#     if CarMake.objects.count() == 0:
+#         initiate()
+
+#     car_models = CarModel.objects.select_related('car_make')
+#     cars = [
+#         {"CarModel": cm.name, "CarMake": cm.car_make.name}
+#         for cm in car_models
+#     ]
+#     return JsonResponse({"CarModels": cars})
 def get_cars(request):
-    if CarMake.objects.count() == 0:
-        initiate()
-
-    car_models = CarModel.objects.select_related('car_make')
-    cars = [
-        {"CarModel": cm.name, "CarMake": cm.car_make.name}
-        for cm in car_models
-    ]
-    return JsonResponse({"CarModels": cars})
-
+    try:
+        carmodels = CarModel.objects.all()
+        results = []
+        for car in carmodels:
+            results.append({
+                "car_make": car.car_make.name,
+                "name": car.name,
+                "year": car.year
+            })
+        return JsonResponse({"CarModels": results})
+    except Exception as e:
+        print("DEBUG: get_cars error =", str(e))
+        return JsonResponse({"status": 500, "error": str(e)})
 
 def get_dealerships(request, state="All"):
     if(state == "All"):
