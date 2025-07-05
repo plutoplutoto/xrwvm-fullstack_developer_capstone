@@ -78,12 +78,12 @@ const PostReview = () => {
   const get_cars = async ()=>{
     const res = await fetch(carmodels_url, {
       method: "GET"
-    });
+    });console.log(res)
     const retobj = await res.json();
-    
+    console.log(retobj)
     const carmodelsarr = retobj.CarModels || []
     setCarmodels(carmodelsarr)
-
+    console.log(carmodelsarr)
   }
   useEffect(() => {
     get_dealer();
@@ -125,15 +125,12 @@ const PostReview = () => {
             {carmodels.map((carmodel, index) => (
                 <option
                 key={index}
-                value={JSON.stringify({ make: carmodel.car_make, model: carmodel.name })}
+                value={JSON.stringify({ make: carmodel.CarMake , model: carmodel.CarModel })}
                 >
-                {carmodel.car_make} {carmodel.name}
+                {carmodel.CarMake} {carmodel.CarModel}
                 </option>
             ))}
             </select>
-
-            <p>Selected model = {model}</p>  {/* ✅ for debugging */}
-
         </div>
   
         <div className="input_field">
