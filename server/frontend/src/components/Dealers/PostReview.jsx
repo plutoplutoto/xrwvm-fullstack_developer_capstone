@@ -43,10 +43,8 @@ const PostReview = () => {
     "review": review,
     "purchase": true,
     "purchase_date": date,
-    "car_make": {
-        "make": make_chosen,
-        "model": model_chosen
-    },
+    "car_make": "banana",
+    "car_model": "banana",
     "car_year": year
     });
 
