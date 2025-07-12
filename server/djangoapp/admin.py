@@ -3,7 +3,7 @@ from .models import CarMake, CarModel
 
 
 # Inline class to show CarModel in CarMake admin page
-class CarModelInline(admin.TabularInline):  
+class CarModelInline(admin.TabularInline):
     model = CarModel
     extra = 1  # Number of empty forms to display
 
