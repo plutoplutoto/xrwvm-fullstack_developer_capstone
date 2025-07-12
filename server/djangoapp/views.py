@@ -1,10 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
-from django.views.decorators.csrf import csrf_exempt  # Optional: safer to use CSRF with frontend header
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.utils.decorators import method_decorator
 from .models import CarMake, CarModel
 from .populate import initiate
 from .restapis import get_request, analyze_review_sentiments, post_review
@@ -14,7 +12,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-@csrf_exempt  # Replace with proper CSRF handling in production
+@csrf_exempt
 @require_POST
 def login_user(request):
     try:
@@ -46,7 +44,9 @@ def registration(request):
         return JsonResponse({'error': 'Invalid input'}, status=400)
 
     if User.objects.filter(username=username).exists():
-        return JsonResponse({'userName': username, 'error': 'Already Registered'}, status=409)
+        return JsonResponse(
+            {'userName': username, 'error': 'Already Registered'}, status=409
+        )
 
     user = User.objects.create_user(
         username=username,
@@ -75,78 +75,51 @@ def get_cars(request):
     ]
     return JsonResponse({"CarModels": cars})
 
+
 def get_dealerships(request, state="All"):
-    if(state == "All"):
+    if state == "All":
         endpoint = "/fetchDealers"
     else:
-        endpoint = "/fetchDealers/"+state
+        endpoint = "/fetchDealers/" + state
+
     dealerships = get_request(endpoint)
-    return JsonResponse({"status":200,"dealers":dealerships})
+    return JsonResponse({"status": 200, "dealers": dealerships})
+
 
 def get_dealer_details(request, dealer_id):
-    if(dealer_id):
-        endpoint = "/fetchDealer/"+str(dealer_id)
+    if dealer_id:
+        endpoint = "/fetchDealer/" + str(dealer_id)
         dealership = get_request(endpoint)
-        return JsonResponse({"status":200,"dealer":dealership})
+        return JsonResponse({"status": 200, "dealer": dealership})
     else:
-        return JsonResponse({"status":400,"message":"Bad Request"})
+        return JsonResponse({"status": 400, "message": "Bad Request"})
+
 
 def get_dealer_reviews(request, dealer_id):
-    # if dealer id has been provided
-    if(dealer_id):
-        endpoint = "/fetchReviews/dealer/"+str(dealer_id)
+    if dealer_id:
+        endpoint = "/fetchReviews/dealer/" + str(dealer_id)
         reviews = get_request(endpoint)
 
-        print("DEBUG: raw reviews = ", reviews, dealer_id)
+        print("DEBUG: raw reviews =", reviews, dealer_id)
 
         for review_detail in reviews:
-            response = analyze_review_sentiments(review_detail['review'])
-            print(response)
-            review_detail['sentiment'] = response['sentiment']
-        return JsonResponse({"status":200,"reviews":reviews})
+            sentiment = analyze_review_sentiments(review_detail['review'])
+            print(sentiment)
+            review_detail['sentiment'] = sentiment['sentiment']
+
+        return JsonResponse({"status": 200, "reviews": reviews})
     else:
-        return JsonResponse({"status":400,"message":"Bad Request"})
+        return JsonResponse({"status": 400, "message": "Bad Request"})
 
-
-# def get_dealer_reviews(request, dealer_id):
-#     if dealer_id:
-#         # Simulate/fake some review data for now
-#         reviews = [
-#             {
-#                 "name": "Alice",
-#                 "review": "Great service!",
-#                 "car_make": "Toyota",
-#                 "car_model": "Corolla",
-#                 "car_year": 2019,
-#                 "sentiment": "positive"
-#             },
-#             {
-#                 "name": "Bob",
-#                 "review": "Okay, but not great.",
-#                 "car_make": "Honda",
-#                 "car_model": "Civic",
-#                 "car_year": 2021,
-#                 "sentiment": "neutral"
-#             }
-#         ]
-
-#         print("DEBUG: Sending fake reviews")
-#         return JsonResponse({"status": 200, "reviews": reviews})
-#     else:
-#         return JsonResponse({"status": 400, "message": "Bad Request"})
 
 def add_review(request):
-    print("DEBUG: Post review777", request.user)
-    # if(request.user.is_anonymous == False):
-    data = json.loads(request.body)
-    print("DEBUG: Ahahahahah")
-    try:
-        response = post_review(data)
+    print("DEBUG: Post review", request.user)
 
-        return JsonResponse({"status":200})
-        print("DEBUG: Post review888")
-    except:
-        return JsonResponse({"status":401,"message":"Error in posting review"})
-        print("DEBUG: Post review")
-    # else:
-    #     return JsonResponse({"status":403,"message":"Unauthorized"})
+    try:
+        data = json.loads(request.body)
+        response = post_review(data)
+        print("DEBUG: Post review response", response)
+        return JsonResponse({"status": 200})
+    except Exception as e:
+        print("Network exception occurred:", str(e))
+        return JsonResponse({"status": 401, "message": "Error in posting review"})
