@@ -78,6 +78,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'djangoproj.wsgi.application'
 
 # Database
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -88,38 +89,23 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': (
-            'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'
+            'django.contrib.auth.password_validation.'
+            'UserAttributeSimilarityValidator'
         ),
     },
     {
         'NAME': (
-            'django.contrib.auth.password_validation.MinimumLengthValidator'
+            'django.contrib.auth.password_validation.'
+            'MinimumLengthValidator'
         ),
     },
     {
         'NAME': (
-            'django.contrib.auth.password_validation.CommonPasswordValidator'
+            'django.contrib.auth.password_validation.'
+            'CommonPasswordValidator'
         ),
     },
     {
         'NAME': (
-            'django.contrib.auth.password_validation.NumericPasswordValidator'
-        ),
-    },
-]
-
-# Internationalization
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
-
-# Static files
-
-STATIC_U_
+            'django.contrib.auth.password_validation.'
+            '
