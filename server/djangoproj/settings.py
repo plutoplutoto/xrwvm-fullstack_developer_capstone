@@ -111,4 +111,5 @@ AUTH_PASSWORD_VALIDATORS = [
             'UserAttributeSimilarityValidator'
         ),
     }
-    
+]
+  
