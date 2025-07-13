@@ -43,11 +43,11 @@ const PostReview = () => {
     "review": review,
     "purchase": true,
     "purchase_date": date,
-    "car_make": "banana",
-    "car_model": "banana",
+    "car_make": make_chosen,
+    "car_model": "model",
     "car_year": year
     });
-
+    
     console.log(jsoninput);
     const res = await fetch(review_url, {
       method: "POST",
