@@ -77,6 +77,7 @@ def get_cars(request):
 
 
 def get_dealerships(request, state="All"):
+    kjhuhiuhiuhiuh
     if state == "All":
         endpoint = "/fetchDealers"
     else:
